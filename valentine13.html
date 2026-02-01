@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>yng.joach ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff2e63, #ff9a9e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: white;
+}
+.container {
+    text-align: center;
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+}
+input {
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    width: 80%;
+    font-size: 1em;
+    margin: 10px 0;
+    text-align: center;
+}
+button, a {
+    margin: 10px 5px;
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1em;
+    display: inline-block;
+}
+.primary { background: #ff1f6d; color: white; }
+.secondary { background: white; color: #ff1f6d; }
+.hidden { display: none; }
+.error { color: #ffe3e3; margin-top:10px; font-size:0.9em; }
+video { width: 100%; max-width: 320px; border-radius: 20px; margin-bottom: 10px; }
+iframe { width: 100%; max-width: 320px; height: 180px; border-radius: 15px; border:none; margin-top:10px; }
+.heart { position:absolute; top:-20px; animation: fall linear forwards; pointer-events:none; font-size:20px; }
+@keyframes fall { to { transform: translateY(110vh); opacity:0; } }
+</style>
+</head>
+<body>
+
+<!-- ETAPE 1 : Prénom -->
+<div class="container" id="step1">
+    <h2>💖 Qui es-tu ?</h2>
+    <input id="nameInput" placeholder="Prénom">
+    <br>
+    <button id="next1" class="primary">Continuer</button>
+    <p id="error1" class="error"></p>
+</div>
+
+<!-- ETAPE 2 : Valentin -->
+<div class="container hidden" id="step2">
+    <h2>😏 Question importante</h2>
+    <p>C’est qui ton Valentin ?</p>
+    <input id="valentinInput" placeholder="Prénom du Valentin">
+    <br>
+    <button id="next2" class="primary">Valider</button>
+    <button id="back1" class="secondary">⬅ Retour</button>
+    <p id="error2" class="error"></p>
+</div>
+
+<!-- ETAPE 3 : Oui / Non -->
+<div class="container hidden" id="step3">
+    <h2>💘 Salut !</h2>
+    <p>Veux-tu être ma Valentine ? 🥰</p>
+    <button id="yes" class="primary">Oui 💕</button>
+    <button id="no" class="secondary">Non 🙃</button>
+    <br>
+    <button id="back2" class="secondary">⬅ Retour</button>
+</div>
+
+<!-- ETAPE 4 : Questionnaire -->
+<div class="container hidden" id="quizStep">
+    <h2>💌 Questionnaire Romantique</h2>
+    <div id="questionContainer">
+        <p id="questionText"></p>
+        <input id="answerInput" placeholder="Ta réponse">
+        <br>
+        <button id="nextQuestion" class="primary">Valider</button>
+        <button id="quizBack" class="secondary">⬅ Retour</button>
+        <p id="quizError" class="error"></p>
+    </div>
+</div>
+
+<!-- ETAPE 5 : Final -->
+<div class="container hidden" id="final">
+    <h2>🐱❤️ Surprise !</h2>
+    <video autoplay loop playsinline muted>
+        <source src="https://cdn.pixabay.com/video/2022/03/25/111846-692351202_large.mp4" type="video/mp4">
+    </video>
+    <p style="font-size:1.2em;">Merci ma Lady, je t’aime de tout mon cœur ❤️</p>
+    <iframe id="musicFrame" src="https://www.youtube.com/embed/7Ai7IrxO7Hg?autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+    const quizStep = document.getElementById("quizStep");
+    const finalStep = document.getElementById("final");
+
+    const nameInput = document.getElementById("nameInput");
+    const valentinInput = document.getElementById("valentinInput");
+    const error1 = document.getElementById("error1");
+    const error2 = document.getElementById("error2");
+
+    // Prénom
+    next1.onclick = () => {
+        const name = nameInput.value.trim().toLowerCase();
+        error1.textContent = "";
+        if(["calixta","maria","angela"].includes(name)){
+            step1.classList.add("hidden");
+            step2.classList.remove("hidden");
+        } else {
+            error1.textContent = "❌ Erreur sur la Valentine";
+        }
+    };
+
+    // Valentin
+    next2.onclick = () => {
+        const val = valentinInput.value.trim().toLowerCase();
+        error2.textContent = "";
+        if(["joachim","joachin","joao"].includes(val)){
+            step2.classList.add("hidden");
+            step3.classList.remove("hidden");
+        } else {
+            error2.textContent = "😅 Mauvaise réponse…";
+        }
+    };
+
+    back1.onclick = () => { step2.classList.add("hidden"); step1.classList.remove("hidden"); };
+    back2.onclick = () => { step3.classList.add("hidden"); step2.classList.remove("hidden"); };
+
+    // Non fuyard
+    const moveNo = () => {
+        no.style.transform = `translate(${Math.random()*150-75}px,${Math.random()*80-40}px)`;
+    };
+    no.addEventListener("touchstart", moveNo);
+    no.addEventListener("mouseover", moveNo);
+
+    // Oui → Questionnaire
+    yes.onclick = () => {
+        step3.classList.add("hidden");
+        quizStep.classList.remove("hidden");
+        startQuiz();
+    };
+
+    // Quiz
+    const questions = [
+        { q: "En quelle année nous nous sommes rencontrés ?", a: ["2022"] },
+        { q: "Quel est le nom de mon meilleur ami ?", a: ["julien"] },
+        { q: "Mon plat préféré ?", a: ["attiéké","attièkè","atchiékè","atchièkè","atchèkè"] },
+        { q: "Si tu pouvais me donner un surnom mignon, lequel ce serait ?", a: [] } // libre
+    ];
+    let currentQuestion = 0;
+    let correctAnswers = 0;
+
+    const questionText = document.getElementById("questionText");
+    const answerInput = document.getElementById("answerInput");
+    const nextQuestion = document.getElementById("nextQuestion");
+    const quizError = document.getElementById("quizError");
+    const quizBack = document.getElementById("quizBack");
+
+    function startQuiz() {
+        currentQuestion = 0;
+        correctAnswers = 0;
+        showQuestion();
+    }
+
+    function showQuestion() {
+        quizError.textContent = "";
+        answerInput.value = "";
+        questionText.textContent = questions[currentQuestion].q;
+    }
+
+    nextQuestion.onclick = () => {
+        const userAnswer = answerInput.value.trim().toLowerCase();
+        if(questions[currentQuestion].a.length === 0) {
+            // réponse libre = toujours correcte
+            correctAnswers++;
+            currentQuestion++;
+        } else if(questions[currentQuestion].a.map(a => a.toLowerCase()).includes(userAnswer)) {
+            correctAnswers++;
+            currentQuestion++;
+        } else {
+            // réponse incorrecte
+            quizError.textContent = "❌ Oups ! Cette réponse n’est pas correcte, essaye encore !";
+            return; // reste sur la même question
+        }
+
+        if(currentQuestion >= questions.length) {
+            // Fin quiz → vérifier 50%
+            if(correctAnswers >= Math.ceil(questions.length / 2)) {
+                quizStep.classList.add("hidden");
+                finalStep.classList.remove("hidden");
+                animateHearts();
+            } else {
+                quizError.textContent = "💌 Tu dois répondre correctement à au moins 50% des questions ! Reprends le quiz.";
+                startQuiz();
+            }
+        } else {
+            showQuestion();
+        }
+    };
+
+    quizBack.onclick = () => {
+        if(currentQuestion > 0) {
+            currentQuestion--;
+            showQuestion();
+        } else {
+            quizStep.classList.add("hidden");
+            step3.classList.remove("hidden");
+        }
+    };
+
+    // Animations cœurs
+    function animateHearts() {
+        setInterval(()=>{
+            const h=document.createElement("div");
+            h.className="heart";
+            h.textContent="❤️";
+            h.style.left=Math.random()*100+"vw";
+            h.style.fontSize=Math.random()*15+15+"px";
+            h.style.animationDuration=Math.random()*2+3+"s";
+            document.body.appendChild(h);
+            setTimeout(()=>h.remove(),5000);
+        },300);
+    }
+});
+</script>
+
+</body>
+</html>
